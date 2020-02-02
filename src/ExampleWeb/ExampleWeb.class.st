@@ -13,38 +13,27 @@ ExampleWeb class >> initialize [
 	WAAdmin register: self asApplicationAt: 'exampleweb'
 ]
 
+{ #category : #accessing }
+ExampleWeb >> items [
+	
+	^ #( #('Calendars' '1/1/2006' 'Track events, holidays etc.') #('Todo lists' '6/1/2006' 'Keep track of all the things to remember to do.') #('Shopping carts' '8/1/2006' 'Enable your customers to shop online.'))
+]
+
 { #category : #rendering }
 ExampleWeb >> renderContentOn: html [
 	
-	html paragraph
-		with: 'This is the text'.
-		
-	html heading
-		level: 3;
-		with: 'A third level heading'.
-		
-	html paragraph: [ 
-		html text: 'Text next word is '.
-		html strong: 'bold' ].
+	html heading level: 1; with: 'Hello world'.
+	html paragraph: 'Welcome to my Seaside web site. In the future you will find all sorts of applications here such as:'.
+	html table: [
+		self items do: [ :row |
+			html tableRow: [ 
+				html tableHeading: (row at: 1).
+				html tableData: (row at: 2).
+				html tableData: (row at: 3) ] ] ]
+]
+
+{ #category : #hooks }
+ExampleWeb >> style [
 	
-	html text: 'Hello world!'.
-	
-	html paragraph: 'A plain text paragraph.'.
-	
-	html paragraph: [ 
-		html render: 'A paragraph with plain text followed by a line break.'.
-		html break.
-		html emphasis: 'Emphasized text '.
-		html render: 'followed by a horizontal rule.'.
-		html horizontalRule.
-		html render: 'An image: '.
-		html image url: 'http://www.seaside.st/styles/logo-plain.png' ].
-	html horizontalRule.
-	html paragraph: 'Fun with SmallTalk and Seaside.'.
-	html paragraph: [ 
-		10 timesRepeat: [ 
-			html image
-				url: 'http://www.seaside.st/styles/logo-plain.png';
-				width: 50. ] ].
-	html horizontalRule 
+	^ 'h1 { text-align: center; }'
 ]
